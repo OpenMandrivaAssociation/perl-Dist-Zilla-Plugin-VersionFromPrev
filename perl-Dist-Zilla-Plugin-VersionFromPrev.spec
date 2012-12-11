@@ -1,21 +1,21 @@
 %define upstream_name    Dist-Zilla-Plugin-VersionFromPrev
 %define upstream_version 0.05
 
-Name:       perl-%{upstream_name}
-Version:    %perl_convert_version %{upstream_version}
-Release:    %mkrel 2
+Name:		perl-%{upstream_name}
+Version:	%perl_convert_version %{upstream_version}
+Release:	3
 
-Summary:    Get the last version via Git tag with C< git tag -l | sort -nr | head -n1 >
-License:    GPL+ or Artistic
-Group:      Development/Perl
-Url:        http://search.cpan.org/dist/%{upstream_name}
-Source0:    http://www.cpan.org/modules/by-module/Dist/%{upstream_name}-%{upstream_version}.tar.gz
+Summary:	Get the last version via Git tag with C< git tag -l | sort -nr | head -n1 >
+License:	GPL+ or Artistic
+Group:		Development/Perl
+Url:		http://search.cpan.org/dist/%{upstream_name}
+Source0:	http://www.cpan.org/modules/by-module/Dist/%{upstream_name}-%{upstream_version}.tar.gz
 
-BuildRequires: perl(Dist::Zilla::Role::VersionProvider)
-BuildRequires: perl(Moose)
-BuildRequires: perl(Test::More)
-BuildArch: noarch
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
+BuildRequires:	perl-devel
+BuildRequires:	perl(Dist::Zilla::Role::VersionProvider)
+BuildRequires:	perl(Moose)
+BuildRequires:	perl(Test::More)
+BuildArch:	noarch
 
 %description
 This plugin was written because the author didn't like the time-based
@@ -32,24 +32,17 @@ This is how you use the plugin:
 %setup -q -n %{upstream_name}-%{upstream_version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
-
+perl Makefile.PL INSTALLDIRS=vendor
 %make
 
 %check
 %make test
 
 %install
-rm -rf %buildroot
 %makeinstall_std
 
-%clean
-rm -rf %buildroot
-
 %files
-%defattr(-,root,root)
 %doc Changes META.yml LICENSE README META.json
 %{_mandir}/man3/*
-%perl_vendorlib/*
-
+%{perl_vendorlib}/*
 
